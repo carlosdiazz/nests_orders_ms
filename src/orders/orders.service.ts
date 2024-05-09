@@ -9,12 +9,24 @@ import {
   CreateOrderDto,
   OrderPaginationDto,
 } from './dto';
+import { ProductsService } from './products.service';
 @Injectable()
 export class OrdersService {
-  constructor(private prisma: DatabaseService) {}
+  constructor(
+    private prisma: DatabaseService,
+    private productsService: ProductsService,
+  ) {}
 
-  async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    return await this.prisma.order.create({ data: createOrderDto });
+  async create(createOrderDto: CreateOrderDto) {
+    const idsProducts = createOrderDto.items.map((order) => order.productId);
+    const products = this.productsService.create(idsProducts);
+
+    return products;
+    //return {
+    //  message: 'Ready',
+    //  dto: createOrderDto,
+    //};
+    //return await this.prisma.order.create({ data: createOrderDto });
   }
 
   async findAll(orderPaginationDto: OrderPaginationDto) {
