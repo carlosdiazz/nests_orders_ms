@@ -4,6 +4,8 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 //Propio
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { ChangeOrderStatusDto, FindOneOrderDto } from './dto';
+import { OrderPaginationDto } from './dto/order-pagination.dto';
 //import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Controller()
@@ -16,17 +18,17 @@ export class OrdersController {
   }
 
   @MessagePattern('findAllOrders')
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Payload() orderPaginationDto: OrderPaginationDto) {
+    return this.ordersService.findAll(orderPaginationDto);
   }
 
   @MessagePattern('findOneOrder')
-  findOne(@Payload() id: any) {
-    return this.ordersService.findOne(id.id);
+  findOne(@Payload() findOneOrderDto: FindOneOrderDto) {
+    return this.ordersService.findOne(findOneOrderDto.id);
   }
 
   @MessagePattern('changeOrderStatus')
-  changeOrderStatus() {
-    throw new NotImplementedException();
+  changeOrderStatus(@Payload() changeOrderStatusDto: ChangeOrderStatusDto) {
+    return this.ordersService.changeOrderStatus(changeOrderStatusDto);
   }
 }
