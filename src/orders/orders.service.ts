@@ -2,19 +2,23 @@ import { Injectable } from '@nestjs/common';
 
 //Propio
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { DatabaseService } from 'src/database';
+//import { UpdateOrderDto } from './dto/update-order.dto';
 
 @Injectable()
 export class OrdersService {
-  create(createOrderDto: CreateOrderDto) {
+  constructor(private prisma: DatabaseService) {}
+
+  async create(createOrderDto: CreateOrderDto) {
+    console.log(createOrderDto);
     return 'This action adds a new order';
   }
 
-  findAll() {
+  async findAll() {
     return `This action returns all orders`;
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     console.log(id);
     return `This action returns a #${id} order`;
   }
