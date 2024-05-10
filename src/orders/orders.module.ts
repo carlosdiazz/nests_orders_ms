@@ -4,7 +4,6 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 //Propio
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
-import { ProductsService } from './products.service';
 import { envs, PRODUCT_SERVICE } from 'src/config';
 
 @Module({
@@ -21,6 +20,6 @@ import { envs, PRODUCT_SERVICE } from 'src/config';
     ]),
   ],
   controllers: [OrdersController],
-  providers: [OrdersService, ProductsService],
+  providers: [OrdersService],
 })
 export class OrdersModule {}
