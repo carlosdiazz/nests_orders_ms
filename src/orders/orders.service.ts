@@ -10,13 +10,13 @@ import {
   CreateOrderDto,
   OrderPaginationDto,
 } from './dto';
-import { PRODUCT_SERVICE } from 'src/config';
+import { NATS_SERVER } from 'src/config';
 
 @Injectable()
 export class OrdersService {
   constructor(
     private prisma: DatabaseService,
-    @Inject(PRODUCT_SERVICE) private readonly productsClient: ClientProxy,
+    @Inject(NATS_SERVER) private readonly productsClient: ClientProxy,
   ) {}
 
   async create(createOrderDto: CreateOrderDto) {

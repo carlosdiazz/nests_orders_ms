@@ -5,6 +5,7 @@ interface EnvVariables {
   PORT: number;
   PRODUCTS_MS_HOST: string;
   PRODUCTS_MS_PORT: number;
+  NATS_SERVERS: string[];
 }
 
 const envsSchema = joi
@@ -12,10 +13,14 @@ const envsSchema = joi
     PORT: joi.number().required(),
     PRODUCTS_MS_HOST: joi.string().required(),
     PRODUCTS_MS_PORT: joi.number().required(),
+    NATS_SERVERS: joi.array().items(joi.string()).required(),
   })
   .unknown(true);
 
-const { error, value } = envsSchema.validate(process.env);
+const { error, value } = envsSchema.validate({
+  ...process.env,
+  NATS_SERVERS: process.env.NATS_SERVERS?.split(','),
+});
 
 if (error) {
   throw new Error(`Config Validation Error ENV ${error}`);
@@ -27,4 +32,5 @@ export const envs = {
   PORT: enVars.PORT,
   PRODUCTS_MS_HOST: enVars.PRODUCTS_MS_HOST,
   PRODUCTS_MS_PORT: enVars.PRODUCTS_MS_PORT,
+  NATS_SERVERS: enVars.NATS_SERVERS,
 };
